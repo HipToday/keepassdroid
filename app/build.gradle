@@ -90,7 +90,7 @@ buildscript {
 }
 
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += [
     ]
 }
