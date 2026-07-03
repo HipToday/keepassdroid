@@ -131,6 +131,28 @@ public class EntryActivity extends LockCloseHideActivity {
         }
     }
 
+    private void setupClickListeners() {
+        View.OnClickListener passListener = v -> {
+            String pass = mEntry.getPassword();
+            if (!pass.isEmpty()) {
+                timeoutCopyToClipboard(getString(R.string.hint_login_pass), pass, true);
+            }
+        };
+
+        findViewById(R.id.entry_password_container).setOnClickListener(passListener);
+        findViewById(R.id.entry_password).setOnClickListener(passListener);
+
+        View.OnClickListener userListener = v -> {
+            String user = mEntry.getUsername();
+            if (!user.isEmpty()) {
+                timeoutCopyToClipboard(getString(R.string.hint_username), user);
+            }
+        };
+
+        findViewById(R.id.entry_user_name_container).setOnClickListener(userListener);
+        findViewById(R.id.entry_user_name).setOnClickListener(userListener);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -175,6 +197,7 @@ public class EntryActivity extends LockCloseHideActivity {
         fillData(false);
 
         setupEditButtons();
+        setupClickListeners();
 
         // Notification Manager
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -447,6 +470,12 @@ public class EntryActivity extends LockCloseHideActivity {
         } catch (SamsungClipboardException e) {
             showSamsungDialog();
             return;
+        }
+
+        if (sensitive) {
+            Toast.makeText(this, R.string.password_copied, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.username_copied, Toast.LENGTH_SHORT).show();
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
