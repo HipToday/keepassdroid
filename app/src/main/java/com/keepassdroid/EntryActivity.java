@@ -472,10 +472,14 @@ public class EntryActivity extends LockCloseHideActivity {
             return;
         }
 
-        if (sensitive) {
-            Toast.makeText(this, R.string.password_copied, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.username_copied, Toast.LENGTH_SHORT).show();
+        // For versions of Android that don't already show an overlay when the clipboard is copied
+        // to, show a toast.
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            if (sensitive) {
+                Toast.makeText(this, R.string.password_copied, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.username_copied, Toast.LENGTH_SHORT).show();
+            }
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
