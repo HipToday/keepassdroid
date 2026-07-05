@@ -35,7 +35,6 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -283,6 +282,7 @@ public class EntryActivity extends LockCloseHideActivity {
 
         Intent intent = new Intent(intentText);
         int flags = PendingIntent.FLAG_CANCEL_CURRENT;
+        //noinspection ObsoleteSdkInt minSdkVersion handles this now, but check to be sure
         if (Build.VERSION.SDK_INT >= 23) {
             flags |= PendingIntent.FLAG_IMMUTABLE;
         }
@@ -526,7 +526,7 @@ public class EntryActivity extends LockCloseHideActivity {
     }
 
     private void showSamsungDialog() {
-        String text = getString(R.string.clipboard_error).concat(System.getProperty("line.separator")).concat(getString(R.string.clipboard_error_url));
+        String text = getString(R.string.clipboard_error).concat(System.lineSeparator()).concat(getString(R.string.clipboard_error_url));
         SpannableString s = new SpannableString(text);
         TextView tv = new TextView(this);
         tv.setText(s);
